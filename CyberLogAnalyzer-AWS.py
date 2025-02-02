@@ -5,6 +5,19 @@ from sklearn.ensemble import IsolationForest
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+# --- MITRE ATT&CK Mapping ---
+MITRE_ATTACK_MAPPING = {
+    "CreateUser": {"Tactic": "Persistence", "Technique": "Cloud Account Creation", "Technique ID": "T1136.003"},
+    "CreateAccessKey": {"Tactic": "Credential Access", "Technique": "Cloud Credential Theft", "Technique ID": "T1552.001"},
+    "DeleteAccessKey": {"Tactic": "Defense Evasion", "Technique": "Credential Deletion", "Technique ID": "T1070.004"},
+    "AttachRolePolicy": {"Tactic": "Privilege Escalation", "Technique": "Privilege Escalation", "Technique ID": "T1098.003"},
+    "UpdateAssumeRolePolicy": {"Tactic": "Privilege Escalation", "Technique": "Role Modification", "Technique ID": "T1098.003"},
+    "GetBucketAcl": {"Tactic": "Discovery", "Technique": "Cloud Storage Discovery", "Technique ID": "T1580"},
+    "ListBuckets": {"Tactic": "Discovery", "Technique": "Cloud Storage Discovery", "Technique ID": "T1580"},
+    "ConsoleLogin": {"Tactic": "Initial Access", "Technique": "Valid Accounts", "Technique ID": "T1078.004"},
+    "PassRole": {"Tactic": "Lateral Movement", "Technique": "Pass Role to Another Account", "Technique ID": "T1098.001"}
+}
+
 # --- 1. Log Yükleme ve İşleme ---
 def load_logs(file_path):
     """
@@ -18,8 +31,10 @@ def load_logs(file_path):
     else:
         raise ValueError("JSON formatı beklenen yapıda değil. 'Records' anahtarı bulunamadı.")
 
-    # Mevcut sütunları terminale yazdır
-    print(f"[INFO] Mevcut sütunlar: {logs.columns.tolist()}")
+    # MITRE ATT&CK ID'leri ile eşleştirme yap
+    logs["MITRE_Tactic"] = logs["eventName"].apply(lambda x: MITRE_ATTACK_MAPPING.get(x, {}).get("Tactic", "Unknown"))
+    logs["MITRE_Technique"] = logs["eventName"].apply(lambda x: MITRE_ATTACK_MAPPING.get(x, {}).get("Technique", "Unknown"))
+    logs["MITRE_Technique_ID"] = logs["eventName"].apply(lambda x: MITRE_ATTACK_MAPPING.get(x, {}).get("Technique ID", "Unknown"))
 
     # **Eksik Sütunları additionalEventData İçinden Çıkart**
     if 'additionalEventData' in logs.columns:
@@ -68,7 +83,7 @@ def save_results(logs, output_dir='results'):
 # --- Ana Çalışma Akışı ---
 if __name__ == "__main__":
     # Örnek JSON dosya yolu
-    file_path = '/Users/nur.cintimur/Downloads/BlizzardBreakdown/AWS-CloudTrail/us-east-1/2024/11/13/949622803460_CloudTrail_us-east-1_20241113T1525Z_VdJI8ddHf4A7MybN.json'
+    file_path = '/Users/nur.cintimur/Downloads/BlizzardBreakdown/AWS-CloudTrail/us-east-1/2024/11/13/949622803460_CloudTrail_us-east-1_20241113T1535Z_nGs7aY1ugRTPqHGG.json'
 
     try:
         # 1. Logları yükle
