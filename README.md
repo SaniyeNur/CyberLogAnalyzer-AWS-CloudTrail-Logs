@@ -112,7 +112,9 @@ Oluştudfugu csv dosyasının içi şu şekilde görülmektedir. (Tek ekrana sı
 
 <img width="1675" alt="image" src="https://github.com/user-attachments/assets/8bbd97fe-2206-4325-b41c-1d44fe28410c" />
 
-<img width="1432" alt="image" src="https://github.com/user-attachments/assets/483a31cf-5316-4fa6-80a9-021755f64d02" />
+<img width="735" alt="image" src="https://github.com/user-attachments/assets/16df0c87-c8f8-4d01-b612-983fbc491b16" />
+
+
 
 
 
