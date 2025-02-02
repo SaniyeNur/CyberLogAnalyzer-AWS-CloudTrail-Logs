@@ -8,6 +8,8 @@ CyberLogAnalyzer, AWS CloudTrail loglarını analiz eden ve makine öğrenimi te
 ✔ **AWS CloudTrail JSON loglarını işler**  
 ✔ **Makine öğrenimi (IsolationForest) ile anomali tespiti yapar**  
 ✔ **Şüpheli olayları görselleştirir**  
+✔ **MITRE ATT&CK ID’leri ile eşleşen olayları belirler**
+
 ✔ **Sonuçları CSV ve JSON formatında kaydeder**  
 
 ---
